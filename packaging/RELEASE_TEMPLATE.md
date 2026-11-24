@@ -68,3 +68,10 @@ an incomplete setup shows the status-bar chip «Нет доступа к уст�
 deb/rpm/AUR/Flatpak/Flathub are **not** published yet; their configs remain in
 the repository as a dormant asset and can be built locally with
 `scripts/build-packages.sh`.
+
+---
+
+The project is free and open (MIT). If it saved you an evening with a VM,
+consider supporting it: [Boosty](https://boosty.to/untopiad/donate) ·
+USDC (Base network): `0x3bc688227cC6C0ffA9Dbd18c6361beDC975d456F`.
+Even more valuable: a compatibility report for your MS89 revision in the issues.
