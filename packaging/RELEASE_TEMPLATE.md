@@ -37,7 +37,7 @@ under the MIT license — see `LICENSE` and the README disclaimer.
    does not cover USB reset):
 
    ```bash
-   curl -fsSL https://gitlab.com/p4650/pantconfig/-/raw/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
+   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
      | sudo tee /etc/udev/rules.d/99-panteon-ms89.rules
    sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=hidraw --subsystem-match=usb
    ```

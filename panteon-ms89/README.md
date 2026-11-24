@@ -16,7 +16,7 @@
 ## Установка (AppImage)
 
 1. Скачайте `PanteonConfig-0.1.1-x86_64.AppImage` из
-   [Releases](https://gitlab.com/p4650/pantconfig/-/releases) и сделайте исполняемым:
+   [Releases](https://github.com/EvgeniyGRep/pantconfig-ms89/releases) и сделайте исполняемым:
 
    ```bash
    chmod +x PanteonConfig-0.1.1-x86_64.AppImage
@@ -25,7 +25,7 @@
 2. Установите udev-правило **один раз** (без него устройство не видно):
 
    ```bash
-   curl -fsSL https://gitlab.com/p4650/pantconfig/-/raw/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
+   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
      | sudo tee /etc/udev/rules.d/99-panteon-ms89.rules
    sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=hidraw --subsystem-match=usb
    ```
@@ -85,8 +85,8 @@ panteon-ms89 check-access                  # диагностика доступ
 
 ## Документация
 
-- [FAQ](https://gitlab.com/p4650/pantconfig/-/blob/master/docs/faq.md)
-- [ADR-001: Write-Gate](https://gitlab.com/p4650/pantconfig/-/blob/master/docs/adr/ADR-001-write-gate.md)
-- [ADR-002: нет readback](https://gitlab.com/p4650/pantconfig/-/blob/master/docs/adr/ADR-002-no-register-readback.md)
-- [ADR-003: цвета DPI-слотов](https://gitlab.com/p4650/pantconfig/-/blob/master/docs/adr/ADR-003-dpi-slot-colors-two-state-nibble.md)
-- [Скриншоты](https://gitlab.com/p4650/pantconfig/-/tree/master/docs/screenshots)
+- [FAQ](../docs/faq.md)
+- [ADR-001: Write-Gate](../docs/adr/ADR-001-write-gate.md)
+- [ADR-002: нет readback](../docs/adr/ADR-002-no-register-readback.md)
+- [ADR-003: цвета DPI-слотов](../docs/adr/ADR-003-dpi-slot-colors-two-state-nibble.md)
+- [Скриншоты](../docs/screenshots)
