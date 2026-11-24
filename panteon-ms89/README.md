@@ -18,7 +18,7 @@
 ## Установка (AppImage)
 
 1. Скачайте `PanteonConfig-0.1.2-x86_64.AppImage` из
-   [Releases](https://github.com/EvgeniyGRep/pantconfig-ms89/releases) и сделайте исполняемым:
+   [Releases](https://github.com/untopiad/pantconfig-ms89/releases) и сделайте исполняемым:
 
    ```bash
    chmod +x PanteonConfig-0.1.2-x86_64.AppImage
@@ -27,7 +27,7 @@
 2. Установите udev-правило **один раз** (без него устройство не видно):
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.2/panteon-ms89/udev/99-panteon-ms89.rules \
+   curl -fsSL https://raw.githubusercontent.com/untopiad/pantconfig-ms89/v0.1.2/panteon-ms89/udev/99-panteon-ms89.rules \
      | sudo tee /etc/udev/rules.d/99-panteon-ms89.rules
    sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=hidraw --subsystem-match=usb
    ```

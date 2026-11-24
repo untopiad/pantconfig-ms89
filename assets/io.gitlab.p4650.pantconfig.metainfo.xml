@@ -21,20 +21,20 @@
     </p>
   </description>
   <launchable type="desktop-id">io.gitlab.p4650.pantconfig.desktop</launchable>
-  <url type="homepage">https://github.com/EvgeniyGRep/pantconfig-ms89</url>
+  <url type="homepage">https://github.com/untopiad/pantconfig-ms89</url>
   <developer_name>PanteonConfig contributors</developer_name>
   <screenshots>
     <screenshot type="default">
       <caption>DPI-слоты и управление подсветкой</caption>
-      <image type="source">https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/master/docs/screenshots/r20/01_brightness_0.png</image>
+      <image type="source">https://raw.githubusercontent.com/untopiad/pantconfig-ms89/master/docs/screenshots/r20/01_brightness_0.png</image>
     </screenshot>
     <screenshot>
       <caption>Названия цветов палитры</caption>
-      <image type="source">https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/master/docs/screenshots/r20/03_palette_labels.png</image>
+      <image type="source">https://raw.githubusercontent.com/untopiad/pantconfig-ms89/master/docs/screenshots/r20/03_palette_labels.png</image>
     </screenshot>
     <screenshot>
       <caption>Профиль с приглушённой подсветкой</caption>
-      <image type="source">https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/master/docs/screenshots/r20/04_profile_brightness0_quiet.png</image>
+      <image type="source">https://raw.githubusercontent.com/untopiad/pantconfig-ms89/master/docs/screenshots/r20/04_profile_brightness0_quiet.png</image>
     </screenshot>
   </screenshots>
   <releases>
