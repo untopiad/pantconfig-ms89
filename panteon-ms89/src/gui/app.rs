@@ -200,6 +200,9 @@ pub struct PanteonApp {
     // `AppBaseline` (AGENTS §1.6) and never refreshed per frame.
     pub access_report: Option<AccessReport>,
     pub access_modal_open: bool,
+    /// UI-only (never in `AppBaseline`): set on the frame the modal opens so
+    /// the opening click (status-bar chip) is not treated as click-outside.
+    pub access_modal_just_opened: bool,
 }
 
 impl Default for PanteonApp {
@@ -258,6 +261,7 @@ impl Default for PanteonApp {
             pending_snapshot: None,
             access_report: None,
             access_modal_open: false,
+            access_modal_just_opened: false,
         };
         app.sync_baseline();
         app
@@ -291,6 +295,7 @@ impl PanteonApp {
         // access modal deterministically without synthesising a click.
         if std::env::var("PANTEON_ACCESS_MODAL").ok().as_deref() == Some("1") {
             app.access_modal_open = true;
+            app.access_modal_just_opened = true;
         }
         app
     }
@@ -1194,6 +1199,7 @@ impl eframe::App for PanteonApp {
                         let chip = theme::tooltip(ui.add(chip), tip);
                         if chip.clicked() {
                             self.access_modal_open = true;
+                            self.access_modal_just_opened = true;
                         }
                     }
 

@@ -109,8 +109,31 @@ pub fn build_modal_view(report: &AccessReport) -> AccessModalView {
     }
 }
 
+/// Whether a pointer click should close the modal as "click-outside".
+///
+/// The frame the modal opens never closes it: the opening click (status-bar
+/// chip, bottom of the screen) is still present in the input state and lies
+/// outside the centered window — without this guard the modal flashes for a
+/// single frame and disappears (R27-hf, reported live).
+pub fn click_outside_closes(
+    just_opened: bool,
+    pos: Option<egui::Pos2>,
+    content_rect: Option<egui::Rect>,
+) -> bool {
+    if just_opened {
+        return false;
+    }
+    match (pos, content_rect) {
+        (Some(p), Some(r)) => !r.contains(p),
+        _ => false,
+    }
+}
+
 /// Renders the modal when open. Recheck is explicit (button) — no per-frame I/O.
 pub fn render_access_modal(ctx: &egui::Context, app: &mut PanteonApp) {
+    // Consume the opening-frame guard even on early returns so it never leaks
+    // into a later frame.
+    let just_opened = std::mem::take(&mut app.access_modal_just_opened);
     if !app.access_modal_open {
         return;
     }
@@ -199,13 +222,14 @@ pub fn render_access_modal(ctx: &egui::Context, app: &mut PanteonApp) {
     // Click-outside closes (Esc/«Закрыть» too, R16/R17 pattern). We use the
     // content rect captured *after* the button row: egui's `Window` response
     // rect excludes trailing widgets, so `Response::clicked_elsewhere()` would
-    // fire on clicks visually inside the dialog (verified live).
+    // fire on clicks visually inside the dialog (verified live). The opening
+    // frame is exempt: the chip click that opened the modal is outside the
+    // centered window and would otherwise close it in the same frame.
     let _ = window;
     if ctx.input(|i| i.pointer.any_click()) {
-        if let Some(pos) = ctx.input(|i| i.pointer.interact_pos()) {
-            if content_rect.map(|r| !r.contains(pos)).unwrap_or(false) {
-                close = true;
-            }
+        let pos = ctx.input(|i| i.pointer.interact_pos());
+        if click_outside_closes(just_opened, pos, content_rect) {
+            close = true;
         }
     }
     if ctx.input(|i| i.key_pressed(egui::Key::Escape)) {
@@ -325,8 +349,37 @@ mod tests {
             NodeAccess::Denied,
         ));
         app.access_modal_open = true;
+        app.access_modal_just_opened = true;
         app.sync_baseline();
         assert_eq!(app.baseline, before);
         assert_eq!(app.dirty_categories(), Vec::new());
+    }
+
+    /// R27-hf regression: the click that opens the modal (chip, bottom bar) is
+    /// still in the frame's input and lies outside the centered window — it
+    /// must never close the modal on the opening frame.
+    #[test]
+    fn opening_click_never_closes_modal() {
+        let rect = egui::Rect::from_min_max(egui::pos2(100.0, 100.0), egui::pos2(500.0, 400.0));
+        let chip_pos = egui::pos2(600.0, 850.0); // status bar, outside the window
+        assert!(!click_outside_closes(true, Some(chip_pos), Some(rect)));
+        // Next frame: the same outside position does close it.
+        assert!(click_outside_closes(false, Some(chip_pos), Some(rect)));
+    }
+
+    #[test]
+    fn click_inside_never_closes_modal() {
+        let rect = egui::Rect::from_min_max(egui::pos2(100.0, 100.0), egui::pos2(500.0, 400.0));
+        let inside = egui::pos2(300.0, 390.0); // bottom button row, inside content rect
+        assert!(!click_outside_closes(false, Some(inside), Some(rect)));
+        assert!(!click_outside_closes(true, Some(inside), Some(rect)));
+    }
+
+    #[test]
+    fn missing_pos_or_rect_never_closes_modal() {
+        let rect = egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(10.0, 10.0));
+        assert!(!click_outside_closes(false, None, Some(rect)));
+        assert!(!click_outside_closes(false, Some(egui::pos2(50.0, 50.0)), None));
+        assert!(!click_outside_closes(false, None, None));
     }
 }
