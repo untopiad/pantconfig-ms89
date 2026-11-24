@@ -1,0 +1,6 @@
+# PANTEON MS89 mouse (VID 0x30fa, PID 0x1440)
+# Grants userspace hidraw access to currently active desktop session via systemd-logind uaccess
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="30fa", ATTRS{idProduct}=="1440", MODE="0660", TAG+="uaccess"
+# Grants userspace USB device access for ioctl USBDEVFS_RESET (re-enumeration)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="30fa", MODE="0660", TAG+="uaccess"
+

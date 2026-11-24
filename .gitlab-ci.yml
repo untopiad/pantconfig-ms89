@@ -1,0 +1,85 @@
+# PanteonConfig CI — AppImage-only release channel (R22).
+#
+# MR/main: gate + build-appimage.
+# Tag v*:  gate + build-appimage + GitLab Release (AppImage + SHA256SUMS).
+# No APT/COPR/AUR/Flatpak jobs, no CI secrets: release-cli uses CI_JOB_TOKEN.
+
+stages: [gate, build, publish]
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+    - when: never
+
+.rust-ubuntu:
+  image: ubuntu:22.04
+  before_script:
+    - apt-get update -qq
+    # appimage-builder apt-deploy DEPENDS_ON includes fakeroot.
+    # appimage-builder configuration helpers external tools.
+    - >-
+      apt-get install -y -qq
+      build-essential pkg-config curl ca-certificates git
+      python3 python3-pip python3-venv
+      desktop-file-utils appstream squashfs-tools patchelf file
+      libx11-dev libxcb1-dev libxkbcommon-dev libwayland-dev
+      libegl1-mesa-dev libgl1-mesa-dev libfontconfig1-dev fakeroot
+      libgtk-3-bin gstreamer1.0-tools libglib2.0-bin libgdk-pixbuf2.0-bin shared-mime-info
+    - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
+    - . "$HOME/.cargo/env"
+    - rustup toolchain install 1.86.0 --profile minimal
+  cache:
+    key:
+      files:
+        - panteon-ms89/Cargo.lock
+    paths:
+      - /root/.cargo/
+      - panteon-ms89/target/
+  variables:
+    CARGO_TERM_COLOR: always
+
+gate:
+  extends: .rust-ubuntu
+  stage: gate
+  script:
+    # MSRV 1.85 <= pinned rustc 1.86; cargo-deny 0.22+ requires 1.95.
+    - cargo install cargo-deny --locked --version 0.18.3
+    - bash scripts/ci-gate.sh
+
+build-appimage:
+  extends: .rust-ubuntu
+  stage: build
+  needs: [gate]
+  variables:
+    APPIMAGE_EXTRACT_AND_RUN: "1"
+  script:
+    - python3 -m pip install --no-cache-dir appimage-builder==1.1.0
+    - bash scripts/ci-build-appimage.sh
+  artifacts:
+    name: "PanteonConfig-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - dist/PanteonConfig-*.AppImage
+      - dist/SHA256SUMS
+    expire_in: 1 week
+
+release:
+  stage: publish
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: build-appimage
+      artifacts: true
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+  script:
+    - |
+      set -eu
+      APPIMAGE="$(basename "$(ls dist/PanteonConfig-*.AppImage | head -1)")"
+      BASE="$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_TAG/raw/dist"
+      release-cli create \
+        --name "PanteonConfig $CI_COMMIT_TAG" \
+        --tag-name "$CI_COMMIT_TAG" \
+        --description "$(cat packaging/RELEASE_TEMPLATE.md)" \
+        --assets-link "{\"name\":\"$APPIMAGE\",\"url\":\"$BASE/$APPIMAGE?job=build-appimage\"}" \
+        --assets-link "{\"name\":\"SHA256SUMS\",\"url\":\"$BASE/SHA256SUMS?job=build-appimage\"}"

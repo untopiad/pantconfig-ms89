@@ -1,0 +1,12 @@
+post_install() {
+    udevadm control --reload-rules || true
+    udevadm trigger --subsystem-match=hidraw --subsystem-match=usb || true
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    udevadm control --reload-rules || true
+}

@@ -1,0 +1,19 @@
+device_hint = "/dev/hidraw1"
+
+[[entries]]
+bank = 6
+addr = 24
+data = 1792
+written_at = "1712345678"
+
+[[entries]]
+bank = 0
+addr = 24
+data = 1818
+written_at = "1712345680"
+
+[[entries]]
+bank = 1
+addr = 10
+data = 85
+written_at = "1712345690"

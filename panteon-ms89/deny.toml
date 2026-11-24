@@ -1,0 +1,38 @@
+# cargo-deny configuration for the panteon-ms89 crate.
+# R21 legal block: permissive licenses only, no copyleft-only dependencies.
+# CI enforcement is planned for R22.
+
+[licenses]
+confidence-threshold = 0.93
+unused-allowed-license = "allow"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unlicense",
+    "CC0-1.0",
+    "0BSD",
+    "BSL-1.0",
+    "Unicode-3.0",
+    "OFL-1.1",
+    "Ubuntu-font-1.0",
+]
+
+# r-efi is offered as "MIT OR Apache-2.0 OR LGPL-2.1-or-later".
+# We deliberately select the permissive MIT option; no LGPL code is used.
+[[licenses.clarify]]
+crate = "r-efi"
+expression = "MIT OR Apache-2.0"
+license-files = []
+
+# epaint_default_fonts bundles fonts under OFL-1.1 and Ubuntu-font-1.0
+# in addition to its own (MIT OR Apache-2.0) code license. The full font
+# license texts are redistributed in THIRD-PARTY-NOTICES.md.
+[[licenses.clarify]]
+crate = "epaint_default_fonts"
+expression = "(MIT OR Apache-2.0) AND OFL-1.1 AND Ubuntu-font-1.0"
+license-files = []

@@ -1,0 +1,88 @@
+[package]
+name = "panteon-ms89"
+version = "0.1.1"
+edition = "2021"
+license = "MIT"
+description = "Linux userspace configurator for the PANTEON MS89 gaming mouse"
+repository = "https://gitlab.com/p4650/pantconfig"
+readme = "README.md"
+keywords = ["mouse", "hidraw", "linux", "configurator", "hardware"]
+categories = ["hardware-support", "gui"]
+
+[lib]
+name = "panteon_ms89"
+path = "src/lib.rs"
+
+[[bin]]
+name = "panteon-ms89"
+path = "src/main.rs"
+
+[[bin]]
+name = "panteon-gui"
+path = "src/bin/panteon_gui.rs"
+required-features = ["gui"]
+
+[features]
+default = []
+gui = ["dep:eframe", "dep:rfd"]
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+eframe = { version = "0.31", optional = true }
+rfd = { version = "0.15", optional = true }
+
+[package.metadata.deb]
+maintainer = "PanteonConfig contributors <p4650@users.noreply.gitlab.com>"
+copyright = "2026, PanteonConfig contributors"
+section = "utils"
+priority = "optional"
+depends = "libc6, libgcc-s1, libx11-6, libxcb1, libxkbcommon0, libwayland-client0, libegl1, libgl1"
+recommends = "systemd"
+extended-description = """\
+Linux userspace configurator for the PANTEON MS89 gaming mouse.
+Provides the panteon-ms89 CLI and the panteon-gui desktop application. All
+hardware writes are protected by a three-tier write gate and are dry-run by
+default.
+
+This is an unofficial community project and is not affiliated with, endorsed
+by, or supported by the PANTEON brand or manufacturer."""
+maintainer-scripts = "debian"
+assets = [
+    ["target/release/panteon-ms89", "usr/bin/panteon-ms89", "755"],
+    ["target/release/panteon-gui", "usr/bin/panteon-gui", "755"],
+    ["udev/99-panteon-ms89.rules", "usr/lib/udev/rules.d/99-panteon-ms89.rules", "644"],
+    ["../assets/io.gitlab.p4650.pantconfig.desktop", "usr/share/applications/io.gitlab.p4650.pantconfig.desktop", "644"],
+    ["../assets/io.gitlab.p4650.pantconfig.svg", "usr/share/icons/hicolor/scalable/apps/io.gitlab.p4650.pantconfig.svg", "644"],
+    ["../assets/io.gitlab.p4650.pantconfig.metainfo.xml", "usr/share/metainfo/io.gitlab.p4650.pantconfig.metainfo.xml", "644"],
+    ["LICENSE", "usr/share/doc/panteon-ms89/LICENSE", "644"],
+    ["THIRD-PARTY-NOTICES.md", "usr/share/doc/panteon-ms89/THIRD-PARTY-NOTICES.md", "644"],
+]
+
+[package.metadata.generate-rpm]
+name = "panteon-ms89"
+summary = "Linux configurator for the PANTEON MS89 gaming mouse"
+license = "MIT"
+vendor = "PanteonConfig contributors"
+packager = "PanteonConfig contributors <p4650@users.noreply.gitlab.com>"
+group = "Applications/System"
+url = "https://gitlab.com/p4650/pantconfig"
+post_install_script = "debian/postinst"
+post_uninstall_script = "debian/postrm"
+assets = [
+    { source = "target/release/panteon-ms89", dest = "/usr/bin/panteon-ms89", mode = "755" },
+    { source = "target/release/panteon-gui", dest = "/usr/bin/panteon-gui", mode = "755" },
+    { source = "udev/99-panteon-ms89.rules", dest = "/usr/lib/udev/rules.d/99-panteon-ms89.rules", mode = "644" },
+    { source = "../assets/io.gitlab.p4650.pantconfig.desktop", dest = "/usr/share/applications/io.gitlab.p4650.pantconfig.desktop", mode = "644" },
+    { source = "../assets/io.gitlab.p4650.pantconfig.svg", dest = "/usr/share/icons/hicolor/scalable/apps/io.gitlab.p4650.pantconfig.svg", mode = "644" },
+    { source = "../assets/io.gitlab.p4650.pantconfig.metainfo.xml", dest = "/usr/share/metainfo/io.gitlab.p4650.pantconfig.metainfo.xml", mode = "644" },
+    { source = "LICENSE", dest = "/usr/share/doc/panteon-ms89/LICENSE", mode = "644", doc = true },
+    { source = "THIRD-PARTY-NOTICES.md", dest = "/usr/share/doc/panteon-ms89/THIRD-PARTY-NOTICES.md", mode = "644", doc = true },
+]
+
+[package.metadata.generate-rpm.requires]
+libX11 = "*"
+libxcb = "*"
+libxkbcommon = "*"
+libwayland-client = "*"
+mesa-libEGL = "*"
+mesa-libGL = "*"

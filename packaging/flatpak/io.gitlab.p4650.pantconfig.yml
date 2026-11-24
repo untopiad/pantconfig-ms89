@@ -1,0 +1,60 @@
+app-id: io.gitlab.p4650.pantconfig
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: panteon-gui
+
+finish-args:
+  # hidraw access + USBDEVFS_RESET (USB re-enumeration) require the whole
+  # device node set; there is no narrower portal for raw HID today.
+  - --device=all
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # rfd/ashpd file dialogs and future portal integration.
+  - --talk-name=org.freedesktop.portal.Desktop
+  # Deliberately no --share=network: the application makes no network calls.
+
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/panteon-ms89/cargo
+
+modules:
+  - name: panteon-ms89
+    buildsystem: simple
+    build-commands:
+      - cargo build --release --locked --offline --features gui --bins --manifest-path panteon-ms89/Cargo.toml
+      - install -Dm755 panteon-ms89/target/release/panteon-ms89 /app/bin/panteon-ms89
+      - install -Dm755 panteon-ms89/target/release/panteon-gui /app/bin/panteon-gui
+      - install -Dm644 assets/io.gitlab.p4650.pantconfig.desktop /app/share/applications/io.gitlab.p4650.pantconfig.desktop
+      - install -Dm644 assets/io.gitlab.p4650.pantconfig.svg /app/share/icons/hicolor/scalable/apps/io.gitlab.p4650.pantconfig.svg
+      - install -Dm644 assets/io.gitlab.p4650.pantconfig.metainfo.xml /app/share/metainfo/io.gitlab.p4650.pantconfig.metainfo.xml
+      - install -Dm644 panteon-ms89/LICENSE /app/share/licenses/io.gitlab.p4650.pantconfig/LICENSE
+      - install -Dm644 panteon-ms89/THIRD-PARTY-NOTICES.md /app/share/doc/io.gitlab.p4650.pantconfig/THIRD-PARTY-NOTICES.md
+      - install -Dm644 panteon-ms89/udev/99-panteon-ms89.rules /app/share/panteon-ms89/udev/99-panteon-ms89.rules
+    sources:
+      - cargo-sources.json
+      - type: dir
+        path: ../../
+        skip:
+          - .git
+          - analysis
+          - tools
+          - panteon-ms89/analysis
+          - panteon-ms89/tests
+          - panteon-ms89/target
+          - target
+          - "*.exe"
+          - "*.pcapng"
+          - "*.deb"
+          - "*.rpm"
+          - "*.AppImage"
+          - "*.zsync"
+          - packaging/appimage/AppDir
+          - packaging/appimage/appimage-build
+          - packaging/flatpak/build-dir
+          - packaging/flatpak/repo
+          - "*.flatpak"

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.gitlab.p4650.pantconfig</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>PanteonConfig</name>
+  <summary>Конфигуратор мыши PANTEON MS89 для Linux</summary>
+  <description>
+    <p>
+      PanteonConfig настраивает мышь PANTEON MS89 через стандартный интерфейс Linux
+      hidraw: DPI-слоты и их цвета, эффекты подсветки, частоту опроса, задержку
+      кнопки «огонь», профили и снимки состояния.
+    </p>
+    <p>
+      Доступны графический интерфейс (panteon-gui) и командная строка
+      (panteon-ms89); запись по умолчанию выполняется в режиме плана (dry-run).
+    </p>
+    <p>
+      Неофициальный проект сообщества; не связан с производителем. ПО
+      предоставляется «как есть».
+    </p>
+  </description>
+  <launchable type="desktop-id">io.gitlab.p4650.pantconfig.desktop</launchable>
+  <url type="homepage">https://gitlab.com/p4650/pantconfig</url>
+  <developer_name>PanteonConfig contributors</developer_name>
+  <screenshots>
+    <screenshot type="default">
+      <caption>DPI-слоты и управление подсветкой</caption>
+      <image type="source">https://gitlab.com/p4650/pantconfig/-/raw/master/docs/screenshots/r20/01_brightness_0.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Названия цветов палитры</caption>
+      <image type="source">https://gitlab.com/p4650/pantconfig/-/raw/master/docs/screenshots/r20/03_palette_labels.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Профиль с приглушённой подсветкой</caption>
+      <image type="source">https://gitlab.com/p4650/pantconfig/-/raw/master/docs/screenshots/r20/04_profile_brightness0_quiet.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.1" date="2026-11-23">
+      <description>
+        <p>Публичные тексты и UX: русский README и описание, короткие дисклеймеры;
+        удалён бланкетный флаг CLI, предохранители записи сохранены.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-11-23">
+      <description>
+        <p>Первый публичный выпуск: AppImage с GUI и CLI, встроенное udev-правило,
+        профили и снимки состояния.</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Settings</category>
+    <category>HardwareSettings</category>
+  </categories>
+  <keywords>
+    <keyword>мышь</keyword>
+    <keyword>hidraw</keyword>
+    <keyword>dpi</keyword>
+    <keyword>подсветка</keyword>
+    <keyword>частота опроса</keyword>
+  </keywords>
+  <provides>
+    <binary>panteon-gui</binary>
+  </provides>
+</component>

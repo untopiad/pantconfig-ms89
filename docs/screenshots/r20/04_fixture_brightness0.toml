@@ -1,0 +1,60 @@
+id = 0
+name = "R20 brightness 0 fixture"
+active_dpi_index = 1
+polling_rate = 1000
+
+[dpi]
+slots = [200, 400, 800, 1600, 3200, 6400]
+active = 1
+colors = ["#ffff00", "#0000ff", "#ff00ff", "#00ff00", "#ff0000", "#00ffff"]
+
+[fire]
+delay_ms = 50
+
+[led]
+effect = "6. Комета"
+speed = 2
+brightness = 0
+all_colors = false
+
+[[dpi_levels]]
+level_index = 1
+dpi = 200
+enabled = true
+color = [255, 255, 0]
+second_color = [255, 238, 0]
+
+[[dpi_levels]]
+level_index = 2
+dpi = 400
+enabled = true
+color = [0, 0, 255]
+second_color = [0, 119, 255]
+
+[[dpi_levels]]
+level_index = 3
+dpi = 800
+enabled = true
+color = [255, 0, 255]
+second_color = [255, 0, 119]
+
+[[dpi_levels]]
+level_index = 4
+dpi = 1600
+enabled = true
+color = [0, 255, 0]
+second_color = [0, 255, 68]
+
+[[dpi_levels]]
+level_index = 5
+dpi = 3200
+enabled = true
+color = [255, 0, 0]
+second_color = [255, 0, 0]
+
+[[dpi_levels]]
+level_index = 6
+dpi = 6400
+enabled = true
+color = [0, 255, 255]
+second_color = [0, 255, 255]

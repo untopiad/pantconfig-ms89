@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# Reload udev rules and re-trigger the PANTEON MS89 (hidraw + usb) so that
+# uaccess permissions apply without a physical replug.
+if command -v udevadm >/dev/null 2>&1; then
+    udevadm control --reload-rules || true
+    udevadm trigger --subsystem-match=hidraw --subsystem-match=usb || true
+fi
+
+exit 0

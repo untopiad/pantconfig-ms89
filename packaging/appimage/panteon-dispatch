@@ -1,0 +1,16 @@
+#!/bin/sh
+# PanteonConfig AppImage entry point (installed as usr/bin/panteon-dispatch and
+# referenced by AppDir/app_info.exec; AppRun/apprun2 sets APPDIR and execs this).
+#
+# No arguments (desktop double-click) -> GUI.
+# Any arguments -> CLI (including `check-access`, `--help`, `--version`).
+set -eu
+
+HERE="$(dirname "$(readlink -f "$0")")"
+APPDIR="${APPDIR:-$(dirname "$(dirname "$HERE")")}"
+
+if [ "$#" -eq 0 ]; then
+    exec "$APPDIR/usr/bin/panteon-gui"
+else
+    exec "$APPDIR/usr/bin/panteon-ms89" "$@"
+fi

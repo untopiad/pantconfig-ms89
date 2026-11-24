@@ -1,0 +1,93 @@
+id = 0
+name = "Factory Second Fixture"
+active_dpi_index = 4
+polling_rate = 250
+
+[dpi]
+slots = [200, 400, 800, 1800, 3200, 6400]
+active = 4
+colors = ["#ffff00", "#0000ff", "#ff00ff", "#00ff00", "#ff0000", "#00ffff"]
+
+[fire]
+delay_ms = 50
+
+[led]
+effect = "6. Комета"
+speed = 2
+brightness = 2
+all_colors = true
+
+[[dpi_levels]]
+level_index = 1
+dpi = 200
+enabled = true
+color = [255, 255, 0]
+second_color = [17, 34, 51]
+
+[[dpi_levels]]
+level_index = 2
+dpi = 400
+enabled = true
+color = [0, 0, 255]
+second_color = [68, 85, 102]
+
+[[dpi_levels]]
+level_index = 3
+dpi = 800
+enabled = true
+color = [255, 0, 255]
+second_color = [119, 136, 153]
+
+[[dpi_levels]]
+level_index = 4
+dpi = 1800
+enabled = true
+color = [0, 255, 0]
+second_color = [170, 187, 204]
+
+[[dpi_levels]]
+level_index = 5
+dpi = 3200
+enabled = true
+color = [255, 0, 0]
+second_color = [221, 238, 255]
+
+[[dpi_levels]]
+level_index = 6
+dpi = 6400
+enabled = true
+color = [0, 255, 255]
+second_color = [3, 6, 9]
+
+[[button_bindings]]
+button_index = 1
+action = "LeftClick"
+
+[[button_bindings]]
+button_index = 2
+action = "RightClick"
+
+[[button_bindings]]
+button_index = 3
+action = "MiddleClick"
+
+[[button_bindings]]
+button_index = 4
+action = "Forward"
+
+[[button_bindings]]
+button_index = 5
+action = "Back"
+
+[[button_bindings]]
+button_index = 6
+action = "DpiUp"
+
+[[button_bindings]]
+button_index = 7
+action = "DpiDown"
+
+[[button_bindings]]
+button_index = 8
+action = "Fire"
+

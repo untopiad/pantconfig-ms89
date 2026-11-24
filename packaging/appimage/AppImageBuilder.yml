@@ -1,0 +1,78 @@
+version: 1
+
+# Build recipe for a self-contained AppImage of PanteonConfig.
+#
+# Prerequisites:
+#   cargo build --release --features gui --bins --manifest-path panteon-ms89/Cargo.toml
+#   appimage-builder --recipe packaging/appimage/AppImageBuilder.yml
+#
+# The script below runs with CWD set to wherever appimage-builder was invoked;
+# $SOURCE_DIR always points at this directory.
+
+script:
+  - cd "$SOURCE_DIR"
+  - rm -rf AppDir
+  - mkdir -p AppDir/usr/bin
+  - mkdir -p AppDir/usr/share/applications
+  - mkdir -p AppDir/usr/share/icons/hicolor/scalable/apps
+  - mkdir -p AppDir/usr/share/metainfo
+  - mkdir -p AppDir/usr/share/doc/panteon-ms89
+  - mkdir -p AppDir/usr/share/panteon-ms89
+  - cp ../../panteon-ms89/target/release/panteon-ms89 AppDir/usr/bin/panteon-ms89
+  - cp ../../panteon-ms89/target/release/panteon-gui AppDir/usr/bin/panteon-gui
+  - cp ../../assets/io.gitlab.p4650.pantconfig.desktop AppDir/usr/share/applications/io.gitlab.p4650.pantconfig.desktop
+  - cp ../../assets/io.gitlab.p4650.pantconfig.svg AppDir/usr/share/icons/hicolor/scalable/apps/io.gitlab.p4650.pantconfig.svg
+  - cp ../../assets/io.gitlab.p4650.pantconfig.svg AppDir/io.gitlab.p4650.pantconfig.svg
+  - cp ../../assets/io.gitlab.p4650.pantconfig.metainfo.xml AppDir/usr/share/metainfo/io.gitlab.p4650.pantconfig.metainfo.xml
+  - cp ../../panteon-ms89/LICENSE AppDir/usr/share/doc/panteon-ms89/LICENSE
+  - cp ../../panteon-ms89/THIRD-PARTY-NOTICES.md AppDir/usr/share/doc/panteon-ms89/THIRD-PARTY-NOTICES.md
+  - cp ../../panteon-ms89/udev/99-panteon-ms89.rules AppDir/usr/share/panteon-ms89/99-panteon-ms89.rules
+
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: io.gitlab.p4650.pantconfig
+    name: PanteonConfig
+    icon: io.gitlab.p4650.pantconfig
+    version: 0.1.1
+    exec: usr/bin/panteon-gui
+    exec_args: "$@"
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: 'deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ jammy main universe'
+    include:
+      - libc6
+      - libgcc-s1
+      - libx11-6
+      - libxcb1
+      - libxkbcommon0
+      - libwayland-client0
+      - libegl1
+      - libgl1
+    exclude:
+      - usr/share/doc
+      - usr/share/man
+      - usr/share/locale
+      - usr/share/icons
+  files:
+    exclude:
+      - usr/share/man
+      - usr/share/doc/*/changelog*
+      - usr/lib/x86_64-linux-gnu/gconv
+      - usr/lib/x86_64-linux-gnu/audit
+  runtime:
+    env:
+      APPDIR_LIBRARY_PATH: "$APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib:$APPDIR/lib/x86_64-linux-gnu"
+  # appimage-builder requires app_info.exec to be an ELF (apprun2 validates it),
+  # so the GUI is the nominal main executable. After AppRun/apprun2 is deployed,
+  # point it at the dispatcher: no args -> GUI, any args -> CLI. apprun2 itself
+  # still performs all APPDIR/LD_LIBRARY_PATH setup from AppRun.env.
+  after_runtime:
+    - cp "$SOURCE_DIR/panteon-dispatch" "$TARGET_APPDIR/usr/bin/panteon-dispatch"
+    - chmod 0755 "$TARGET_APPDIR/usr/bin/panteon-dispatch"
+    - sed -i 's|^APPDIR_EXEC_PATH=.*|APPDIR_EXEC_PATH=$APPDIR/usr/bin/panteon-dispatch|' "$TARGET_APPDIR/AppRun.env"
+    - grep -q '^APPDIR_EXEC_PATH=$APPDIR/usr/bin/panteon-dispatch$' "$TARGET_APPDIR/AppRun.env"
+
+AppImage:
+  arch: x86_64

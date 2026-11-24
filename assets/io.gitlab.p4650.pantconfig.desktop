@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=PanteonConfig
+GenericName=Mouse Configurator
+Comment=Configure PANTEON MS89 gaming mouse on Linux
+Exec=panteon-gui
+Icon=io.gitlab.p4650.pantconfig
+Terminal=false
+Categories=Settings;HardwareSettings;
+Keywords=mouse;hidraw;dpi;rgb;polling;
+StartupNotify=true
+StartupWMClass=panteon-gui
