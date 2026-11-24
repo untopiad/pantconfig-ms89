@@ -5,7 +5,7 @@ use clap::{Parser, Subcommand};
 pub use super::args::{parse_hex_color_arg, parse_hex_or_dec_u16, parse_hex_or_dec_u8, GateArgs};
 
 #[derive(Parser)]
-#[command(name = "panteon-ms89", author = "Senior Rust Engineer", version = "0.1.1", about = "Linux userspace configurator for PANTEON MS89", long_about = "Linux configurator for PANTEON MS89.\nSAFETY NOTICE: Hardware writes are strictly disabled until protocol verification via live traffic capture.\nOnly passive discovery and explicit read-only feature report probes are permitted.")]
+#[command(name = "panteon-ms89", author = "Senior Rust Engineer", version = "0.1.2", about = "Linux userspace configurator for PANTEON MS89", long_about = "Linux configurator for PANTEON MS89.\nSAFETY NOTICE: Hardware writes are strictly disabled until protocol verification via live traffic capture.\nOnly passive discovery and explicit read-only feature report probes are permitted.")]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,

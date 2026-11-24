@@ -20,14 +20,14 @@ under the MIT license — see `LICENSE` and the README disclaimer.
 
 ## Install (3 steps)
 
-1. Download `PanteonConfig-0.1.1-x86_64.AppImage` and `SHA256SUMS` from this
+1. Download `PanteonConfig-0.1.2-x86_64.AppImage` and `SHA256SUMS` from this
    release's assets.
 
 2. Verify and make executable:
 
    ```bash
    sha256sum -c SHA256SUMS
-   chmod +x PanteonConfig-0.1.1-x86_64.AppImage
+   chmod +x PanteonConfig-0.1.2-x86_64.AppImage
    ```
 
 3. Install the udev rule **once** — without it the mouse is not visible
@@ -35,22 +35,22 @@ under the MIT license — see `LICENSE` and the README disclaimer.
    does not cover USB reset):
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
+   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.2/panteon-ms89/udev/99-panteon-ms89.rules \
      | sudo tee /etc/udev/rules.d/99-panteon-ms89.rules
    sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=hidraw --subsystem-match=usb
    ```
 
    Offline alternative (the rule is bundled in the image): run
-   `./PanteonConfig-0.1.1-x86_64.AppImage check-access` while the rule is
+   `./PanteonConfig-0.1.2-x86_64.AppImage check-access` while the rule is
    missing/outdated — it prints a ready-to-run heredoc; the GUI modal has
    «Скопировать команду».
 
 ## Run
 
 ```bash
-./PanteonConfig-0.1.1-x86_64.AppImage                # GUI (no arguments)
-./PanteonConfig-0.1.1-x86_64.AppImage --help         # CLI
-./PanteonConfig-0.1.1-x86_64.AppImage check-access   # read-only access diagnostics
+./PanteonConfig-0.1.2-x86_64.AppImage                # GUI (no arguments)
+./PanteonConfig-0.1.2-x86_64.AppImage --help         # CLI
+./PanteonConfig-0.1.2-x86_64.AppImage check-access   # read-only access diagnostics
 ```
 
 No arguments launches the GUI; any arguments are passed to the CLI. No

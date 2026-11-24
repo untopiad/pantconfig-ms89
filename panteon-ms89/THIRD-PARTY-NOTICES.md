@@ -236,7 +236,7 @@ This file aggregates the licenses of every package recorded in `Cargo.lock` (422
 | `ordered-float` | 4.6.0 | MIT |
 | `ordered-stream` | 0.2.0 | MIT OR Apache-2.0 |
 | `owned_ttf_parser` | 0.25.1 | Apache-2.0 |
-| `panteon-ms89` | 0.1.1 | MIT |
+| `panteon-ms89` | 0.1.2 | MIT |
 | `parking` | 2.2.1 | Apache-2.0 OR MIT |
 | `parking_lot` | 0.12.5 | MIT OR Apache-2.0 |
 | `parking_lot_core` | 0.9.12 | MIT OR Apache-2.0 |

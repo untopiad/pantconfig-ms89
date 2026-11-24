@@ -34,7 +34,7 @@ AppDir:
     id: io.gitlab.p4650.pantconfig
     name: PanteonConfig
     icon: io.gitlab.p4650.pantconfig
-    version: 0.1.1
+    version: 0.1.2
     exec: usr/bin/panteon-gui
     exec_args: "$@"
   apt:

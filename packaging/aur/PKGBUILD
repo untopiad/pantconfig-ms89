@@ -1,6 +1,6 @@
 # Maintainer: PanteonConfig contributors <p4650@users.noreply.gitlab.com>
 pkgname=panteon-ms89
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
 pkgdesc="Linux userspace configurator for the PANTEON MS89 gaming mouse"
 arch=('x86_64')

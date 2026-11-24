@@ -15,17 +15,17 @@
 
 ## Установка (AppImage)
 
-1. Скачайте `PanteonConfig-0.1.1-x86_64.AppImage` из
+1. Скачайте `PanteonConfig-0.1.2-x86_64.AppImage` из
    [Releases](https://github.com/EvgeniyGRep/pantconfig-ms89/releases) и сделайте исполняемым:
 
    ```bash
-   chmod +x PanteonConfig-0.1.1-x86_64.AppImage
+   chmod +x PanteonConfig-0.1.2-x86_64.AppImage
    ```
 
 2. Установите udev-правило **один раз** (без него устройство не видно):
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.1/panteon-ms89/udev/99-panteon-ms89.rules \
+   curl -fsSL https://raw.githubusercontent.com/EvgeniyGRep/pantconfig-ms89/v0.1.2/panteon-ms89/udev/99-panteon-ms89.rules \
      | sudo tee /etc/udev/rules.d/99-panteon-ms89.rules
    sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=hidraw --subsystem-match=usb
    ```
@@ -36,9 +36,9 @@
 3. Запуск:
 
    ```bash
-   ./PanteonConfig-0.1.1-x86_64.AppImage            # GUI
-   ./PanteonConfig-0.1.1-x86_64.AppImage --help     # CLI
-   ./PanteonConfig-0.1.1-x86_64.AppImage check-access
+   ./PanteonConfig-0.1.2-x86_64.AppImage            # GUI
+   ./PanteonConfig-0.1.2-x86_64.AppImage --help     # CLI
+   ./PanteonConfig-0.1.2-x86_64.AppImage check-access
    ```
 
 `check-access` — диагностика доступа: проверяет правило и права на hidraw и

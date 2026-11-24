@@ -38,6 +38,12 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.1.2" date="2026-11-24">
+      <description>
+        <p>Исправлена модалка доступа к устройству: окно больше не закрывается
+        кликом, которым его открыли.</p>
+      </description>
+    </release>
     <release version="0.1.1" date="2026-11-23">
       <description>
         <p>Публичные тексты и UX: русский README и описание, короткие дисклеймеры;
