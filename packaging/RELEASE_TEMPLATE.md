@@ -1,5 +1,3 @@
-# PanteonConfig v0.1.1 — AppImage
-
 **Unofficial community project.** PanteonConfig is an independent open-source
 utility that makes the PANTEON MS89 mouse configurable on Linux. It is not
 affiliated with, endorsed by, or supported by the PANTEON brand or manufacturer;
